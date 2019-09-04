@@ -52,7 +52,7 @@ Using the pointerlock API in HTML5 is a *headache* to get working. Using Mouse.j
 target.requestLock = target.requestPointerLock ||
     target.mozRequestPointerLock ||
     target.webkitRequestPointerLock;
-target.requestUnlock = self.target.exitPointerLock ||
+target.requestUnlock = target.exitPointerLock ||
     target.mozExitPointerLock ||
     target.webkitExitPointerLock;
 
@@ -65,7 +65,7 @@ function lockError() {
 }
 
 if ("onpointerlockchange" in document) document.addEventListener("pointerlockchange", lockChange, false);
-lse if ("onmozpointerlockchange" in document) document.addEventListener("mozpointerlockchange", lockChange, false);
+else if ("onmozpointerlockchange" in document) document.addEventListener("mozpointerlockchange", lockChange, false);
 else if ("onwebkitpointerlockchange" in document) document.addEventListener("webkitpointerlockchange", lockChange, false);
 
 document.addEventListener("pointerlockerror", lockError, false);
@@ -147,3 +147,90 @@ HTML:
 
 Either way, you can just grab Mouse.js and include it with your project!
 
+## Methods
+
+### Mouse()
+
+Creates a new Mouse object.
+
+```javascript
+Mouse(target: object)
+```
+
+**Target** (optional): The target of the pointer lock API (DOM object). Will default to `document.body` if not provided.
+
+### Mouse.on()
+
+Attaches a callback to an event listener. 
+
+```javascript
+mouse.on(event: string, callback: function) 			// => boolean
+```
+
+**Event:** The event the callback should be attached to. See [MouseEvents](#mousevents) for the possible events.
+
+**Callback:** A function which will be called when the event happens.
+
+**Returns:** Whether or not the action was completed.
+
+### Mouse.off()
+
+Removes a callback from an event listener.
+
+```javascript
+mouse.off(event: string, callback: function | string)	// => boolean
+```
+
+**Event:** The event of the callback to be removed. See [MouseEvents](#mousevents) for the possible events.
+
+**Callback:** The function to be removed.  Use the string `"all"` to remove all of the listeners from the event.
+
+**Returns:** Whether or not the action was completed.
+
+### Mouse.pressed()
+
+Checks whether or not a button is pressed.
+
+```javascript
+mouse.pressed(button: string | number)						// => boolean
+```
+
+**Button:** The targeted button code or button name. Can be a number or a string.
+
+**Returns:** Whether or not the button is down.
+
+### Mouse.codeOf()
+
+Returns the code of a mouse button, given a name.
+
+```javascript
+mouse.codeOf(name: string)									// => number
+```
+
+**Button:** The name of the button.
+
+**Returns:** The code of the button (undefined if not found)
+
+### Mouse.nameOf()
+
+Returns the name of a mouse button, given a code.
+
+```javascript
+mouse.nameOf(code: number)									// => string
+```
+
+**Button:** The code of the button.
+
+**Returns:** The name of the button (undefined if not found)
+
+### MouseEvents
+
+| Name           | Description                                                  | Passes                 |
+| -------------- | ------------------------------------------------------------ | ---------------------- |
+| `move`         | Called on the mousemove event, after the mouse object has been updated. | The MouseEvent trigger |
+| `{button}down` | Called when any button on the mouse is pressed. `{button}` can be `left, right, middle, back, or next`. Use `anydown` to listen to all mousedown events. | The MouseEvent trigger |
+| `{button}up`   | Like `{button}down`, but called when a mouse button is unpressed. Use `anyup` to listen to all mouseup events. | The MouseEvent trigger |
+| `lockchange`   | Called when the pointer lock change state changes            | mouse.locked           |
+| `lock`         | Called when the mouse pointer is locked to the target        | nothing                |
+| `unlock`       | Called when the mouse pointer is unlocked from the target    | nothing                |
+| `lockerror`    | Called when the pointer lock API throws an error             | nothing                |
