@@ -167,7 +167,7 @@ Attaches a callback to an event listener.
 mouse.on(event: string, callback: function) 			// => boolean
 ```
 
-**Event:** The event the callback should be attached to. See [MouseEvents](#mousevents) for the possible events.
+**Event:** The event the callback should be attached to. See [MouseEvents](#mouseevents) for the possible events.
 
 **Callback:** A function which will be called when the event happens.
 
@@ -181,7 +181,7 @@ Removes a callback from an event listener.
 mouse.off(event: string, callback: function | string)	// => boolean
 ```
 
-**Event:** The event of the callback to be removed. See [MouseEvents](#mousevents) for the possible events.
+**Event:** The event of the callback to be removed. See [MouseEvents](#mouseevents) for the possible events.
 
 **Callback:** The function to be removed.  Use the string `"all"` to remove all of the listeners from the event.
 
